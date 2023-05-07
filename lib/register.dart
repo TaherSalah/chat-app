@@ -94,15 +94,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   padding: MaterialStatePropertyAll(
                       EdgeInsets.symmetric(horizontal: 20, vertical: 40))),
               onPressed: () async {
-           try{
-             UserCredential user = await FirebaseAuth.instance
-                 .createUserWithEmailAndPassword(
-                 email: email!, password: password!);
-             print(user.user!.metadata);
+                try {
+                  await authEmailAndPass();
 
-           }catch(e){
-             print(e.toString());
-           }
+                  print(authEmailAndPass().user.user!.metadata);
+                } on FirebaseAuthException catch (e) {
+                  if (e.code == 'week-password') {
+                    showSnakBar(context,
+                        title: 'The Password Provided is Week',
+                        bgColor: Colors.amber);
+                  } else if (e.code == 'email-already-in-use') {
+                    showSnakBar(context,
+                        title:
+                            'The email address is already in use by another account.!!',
+                        bgColor: Colors.redAccent);
+                  }
+                  print(e.toString());
+                } catch (e) {
+                  print(e.toString());
+                }
               },
               child: const Text('Register'))
         ],
@@ -114,4 +124,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
     widget.isActive = !widget.isActive;
     setState(() {});
   }
+
+  authEmailAndPass() async {
+    UserCredential user = await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(email: email!, password: password!);
+    showSnakBar(context, title: 'Email create Success', bgColor: Colors.green);
+  }
+}
+
+ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnakBar(
+    BuildContext context,
+    {required String title,
+    required Color bgColor}) {
+  return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    backgroundColor: bgColor,
+    content: Text(title),
+  ));
 }
