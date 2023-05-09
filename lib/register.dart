@@ -1,7 +1,10 @@
+// ignore_for_file: avoid_print
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
+// ignore: must_be_immutable
 class RegisterScreen extends StatefulWidget {
   RegisterScreen({Key? key}) : super(key: key);
 
@@ -20,6 +23,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: ModalProgressHUD(
         inAsyncCall: isLoading,
         child: Form(
@@ -120,8 +124,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         isLoading = true;
                         setState(() {});
                         await authEmailAndPass();
+                        // ignore: use_build_context_synchronously
                         Navigator.pushNamed(context, 'Login');
-
                         print(authEmailAndPass().user.user!.metadata);
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'week-password') {
@@ -158,6 +162,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   authEmailAndPass() async {
     await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email!, password: password!);
+    // ignore: use_build_context_synchronously
     showSnakBar(context, title: 'Email create Success', bgColor: Colors.green);
   }
 }
