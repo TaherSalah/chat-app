@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 
+import 'package:chat_app/shard/widget/snak_bar_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -167,12 +168,4 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 }
 
-ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnakBar(
-    BuildContext context,
-    {required String title,
-    required Color bgColor}) {
-  return ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    backgroundColor: bgColor,
-    content: Text(title),
-  ));
-}
+

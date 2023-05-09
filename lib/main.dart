@@ -1,5 +1,6 @@
-import 'package:chat_app/login.dart';
-import 'package:chat_app/register.dart';
+import 'package:chat_app/screens/home.dart';
+import 'package:chat_app/screens/login.dart';
+import 'package:chat_app/screens/register.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -22,8 +23,10 @@ class ChatApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       routes: {
-        'Login': (context) =>  LoginScreen(),
+        'Login': (context) =>  const LoginScreen(),
         'Register': (context) =>  RegisterScreen(),
+        'Home': (context) =>  HomeScreen(),
+
       },
       theme: ThemeData.dark(useMaterial3: true),
       initialRoute: 'Login',
