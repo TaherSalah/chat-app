@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../shard/widget/chat_buple.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -23,28 +25,35 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
-        body: ListView.builder(
-          itemCount: 5,
-          itemBuilder: (context, index) {
-            return Align(
-              alignment: Alignment.topLeft,
-              child: Container(
-                margin: const EdgeInsets.only(top: 20, right: 10),
-                decoration: const BoxDecoration(
-                    color: Colors.indigoAccent,
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(15),
-                        bottomRight: Radius.circular(15),
-                        topLeft: Radius.circular(15))),
-                padding: const EdgeInsets.all(10),
-                child: const Padding(
-                  padding: EdgeInsets.all(6.0),
-                  child: Text(
-                      'World Hello World World Hello WorldWorld Hello WorldWorld Hello WorldWorld Hello World'),
-                ),
+        body: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemCount: 5,
+                itemBuilder: (context, index) {
+                  return const ChatBuple();
+                },
               ),
-            );
-          },
+            ),
+            TextFormField(
+              onChanged: (va) {
+                print(va);
+              },
+              decoration: InputDecoration(
+                  suffixIcon: IconButton(
+                      onPressed: () {},
+                      icon: Icon(Icons.schedule_send_outlined, size: 30)),
+                  border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white),
+                      borderRadius: BorderRadius.circular(25)),
+                  disabledBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white)),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white)),
+                  enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white10))),
+            )
+          ],
         ));
   }
 }
