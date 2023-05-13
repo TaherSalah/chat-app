@@ -14,6 +14,8 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isActive = true;
   String? email, password;
   GlobalKey<FormState> formKey = GlobalKey();
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,6 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 onChanged: (data) {
                   email = data;
                 },
+                keyboardType: TextInputType.emailAddress,
                 decoration: const InputDecoration(
                     prefixIcon: Icon(Icons.email_outlined),
                     hintText: 'Enter Your Email',
@@ -64,6 +67,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   }
                   return null;
                 },
+                controller: TextEditingController(),
+                keyboardType: TextInputType.phone,
                 onChanged: (data) {
                   password = data;
                 },
@@ -111,21 +116,28 @@ class _LoginScreenState extends State<LoginScreen> {
                         EdgeInsets.symmetric(horizontal: 20, vertical: 40))),
                 onPressed: () async {
                   if (formKey.currentState!.validate()) {
-                    loginUser();
-                    showSnakBar(context,
-                        title: 'sign in success', bgColor: Colors.green);
-                        Navigator.popAndPushNamed(context, 'Home');
-                    try {} on FirebaseAuthException catch (e) {
+                    try {
+                      isLoading = true;
+                      setState(() {});
+                      await loginUser();
+                      // ignore: use_build_context_synchronously
+                      Navigator.pushNamed(context, 'Home');
+                    } on FirebaseAuthException catch (e) {
                       if (e.code == 'user-not-found') {
                         showSnakBar(context,
-                            title: 'no user found for that email',
-                            bgColor: Colors.redAccent);
+                            title: 'No user found for that email.',
+                            bgColor: Colors.amber);
                       } else if (e.code == 'wrong-password') {
                         showSnakBar(context,
-                            title: 'wrong password provided for that user',
+                            title: 'Wrong password provided for that user.',
                             bgColor: Colors.redAccent);
                       }
+                      print(e.toString());
+                    } catch (e) {
+                      print(e.toString());
                     }
+                    isLoading = false;
+                    setState(() {});
                   }
                 },
                 child: const Text('Login'))
@@ -143,5 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
   loginUser() async {
     await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email!, password: password!);
+    // ignore: use_build_context_synchronously
+    showSnakBar(context, title: 'sign in success', bgColor: Colors.green);
   }
 }

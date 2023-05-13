@@ -1,5 +1,9 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:audioplayers/audioplayers.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+import '../shard/constance.dart';
 import '../shard/widget/chat_buple.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -8,6 +12,9 @@ class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
+
+CollectionReference userMessage =
+    FirebaseFirestore.instance.collection(kMessageCollection);
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
@@ -36,21 +43,32 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             TextFormField(
+              onFieldSubmitted: (value) {
+                userMessage.add({
+                  'message': value,
+                });
+              },
               onChanged: (va) {
                 print(va);
               },
               decoration: InputDecoration(
                   suffixIcon: IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.schedule_send_outlined, size: 30)),
+                      onPressed: () async {
+                        AssetsAudioPlayer.newPlayer().open(
+                          Audio("assets/sound/001.mp3"),
+                          showNotification: true,
+                        );
+                        setState(() {});
+                      },
+                      icon: const Icon(Icons.schedule_send_outlined, size: 30)),
                   border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
+                      borderSide: const BorderSide(color: Colors.white),
                       borderRadius: BorderRadius.circular(25)),
                   disabledBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.white)),
-                  focusedBorder: OutlineInputBorder(
+                  focusedBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.white)),
-                  enabledBorder: OutlineInputBorder(
+                  enabledBorder: const OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.white10))),
             )
           ],
