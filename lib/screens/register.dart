@@ -126,17 +126,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         setState(() {});
                         await authEmailAndPass();
                         // ignore: use_build_context_synchronously
-                        Navigator.pushNamed(context, 'Login');
-                        print(authEmailAndPass().user.user!.metadata);
+                        Navigator.pushNamed(context, 'Home');
                       } on FirebaseAuthException catch (e) {
-                        if (e.code == 'week-password') {
+                        if (e.code == 'weak-password') {
                           showSnakBar(context,
-                              title: 'The Password Provided is Week',
+                              title: 'The password provided is too weak.',
                               bgColor: Colors.amber);
                         } else if (e.code == 'email-already-in-use') {
                           showSnakBar(context,
                               title:
-                                  'The email address is already in use by another account.!!',
+                                  'The account already exists for that email.',
                               bgColor: Colors.redAccent);
                         }
                         print(e.toString());
@@ -161,7 +160,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   authEmailAndPass() async {
-    await FirebaseAuth.instance
+     await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email!, password: password!);
     // ignore: use_build_context_synchronously
     showSnakBar(context, title: 'Email create Success', bgColor: Colors.green);
