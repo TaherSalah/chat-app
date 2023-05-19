@@ -1,3 +1,4 @@
+import 'package:chat_app/screens/home.dart';
 import 'package:chat_app/shard/widget/snak_bar_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen> { 
   bool isActive = true;
   String? email, password;
   GlobalKey<FormState> formKey = GlobalKey();
@@ -121,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       setState(() {});
                       await loginUser();
                       // ignore: use_build_context_synchronously
-                      Navigator.pushNamed(context, 'Home');
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen(),));
                     } on FirebaseAuthException catch (e) {
                       if (e.code == 'user-not-found') {
                         showSnakBar(context,
