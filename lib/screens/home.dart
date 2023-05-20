@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../model/message_model.dart';
 import '../shard/constance.dart';
-import '../shard/widget/chat_buple.dart';
+import '../shard/widget/chat_bubles_for_me.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
