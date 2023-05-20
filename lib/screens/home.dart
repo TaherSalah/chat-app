@@ -1,3 +1,4 @@
+import 'package:chat_app/shard/widget/chat_bubbles_for_frind.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -50,9 +51,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   controller: scrollController,
                   itemCount: messageList.length,
                   itemBuilder: (context, index) {
-                    return ChatBuple(
+                    return messageList[index].id ==email ? ChatBubblesForMe(
                       messageModel: messageList[index],
-                    );
+                    ):ChatBubblesForFrinds(messageModel: messageList[index]);
                   },
                 ),
               ),

@@ -126,7 +126,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         setState(() {});
                         await authEmailAndPass();
                         // ignore: use_build_context_synchronously
-                        Navigator.pushNamed(context, 'Home');
+                        Navigator.pushNamed(context, 'Home',arguments: email);
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'weak-password') {
                           showSnakBar(context,
