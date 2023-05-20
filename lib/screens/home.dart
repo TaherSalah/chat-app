@@ -18,39 +18,27 @@ TextEditingController textEditingController = TextEditingController();
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<QuerySnapshot>(
-      future: userMessage.get(),
+    return StreamBuilder<QuerySnapshot>(
+      stream: userMessage.orderBy(kCreatedAt).snapshots(),
       builder: (context, snapshot) {
         // ignore: avoid_print
         print(snapshot.data!.docs.length);
         if (snapshot.hasData) {
           List<MessageModel> messageList=[];
-          for(int i = 0;i<snapshot.data!.docs.length;i++){
-             messageList.add(MessageModel.fromJson(snapshot.data!.docs[i]));
+          for (int i = 0; i < snapshot.data!.docs.length; i++) {
+            messageList.add(MessageModel.fromJson(snapshot.data!.docs[i]));
+            print(i.bitLength);
           }
           return Scaffold(
-              appBar: AppBar(
-                backgroundColor: Colors.white12,
-                title: const Row(
-                  children: [
-                    Icon(Icons.chat),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text('Chat App')
-                  ],
-                ),
-              ),
               body: Column(
                 children: [
                   Expanded(
-
                     child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
                       itemCount: messageList.length,
                       itemBuilder: (context, index) {
-                        return  ChatBuple(messageModel: messageList[index],);
+                        return ChatBuple(
+                          messageModel: messageList[index] ,
+                        );
                       },
                     ),
                   ),
@@ -58,8 +46,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     controller: textEditingController,
                     onFieldSubmitted: (value) {
                       userMessage.add({
-                        'message': value,
+                        ///// 3alshan ab3at data from message to fireStore ///////
+                        kMessage: value,
+                        ///// 3alshan a3rf order  message in chat ////
+                        kCreatedAt:DateTime.now()
                       });
+                      //// reset the field after submit data ///////
                       textEditingController.clear();
                       setState(() {});
                     },
