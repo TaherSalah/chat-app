@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../model/message_model.dart';
 import '../shard/constance.dart';
 import '../shard/widget/chat_buple.dart';
@@ -19,6 +20,7 @@ ScrollController scrollController = ScrollController();
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+   var email= ModalRoute.of(context)!.settings.arguments;
     return StreamBuilder<QuerySnapshot>(
       stream: userMessage.orderBy(kCreatedAt,descending: true).snapshots(),
       builder: (context, snapshot) {
@@ -30,6 +32,16 @@ class _HomeScreenState extends State<HomeScreen> {
             messageList.add(MessageModel.fromJson(snapshot.data!.docs[i]));
           }
           return Scaffold(
+            appBar: AppBar(
+              title: Row(
+                children: [
+                  Icon(Icons.messenger_outline),
+                  SizedBox(width: 10,),
+                  Text('Chat App',style: GoogleFonts.cairo(fontWeight: FontWeight.w500),)
+                ],
+              ),
+              elevation: 10,
+            ),
               body: Column(
             children: [
               Expanded(
@@ -51,12 +63,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     ///// 3alshan ab3at data from message to fireStore ///////
                     kMessage: value,
                     ///// 3alshan a3rf order  message in chat ////
-                    kCreatedAt: DateTime.now()
+                    kCreatedAt: DateTime.now(),
+                    kId:email
                   });
                   //// reset the field after submit data ///////
                   scrollController.animateTo(
                       0,
-                      duration: Duration(seconds:1),
+                      duration: Duration(milliseconds:1),
                       curve: Curves.fastOutSlowIn);
 
                   textEditingController.clear();

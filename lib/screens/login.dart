@@ -122,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       setState(() {});
                       await loginUser();
                       // ignore: use_build_context_synchronously
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen(),));
+                      Navigator.pushReplacementNamed(context, 'Home',arguments: email);
                     } on FirebaseAuthException catch (e) {
                       if (e.code == 'user-not-found') {
                         showSnakBar(context,
