@@ -13,7 +13,11 @@ class ChatBuple extends StatefulWidget {
 class _ChatBupleState extends State<ChatBuple> {
   @override
   Widget build(BuildContext context) {
-    return Align(
+    return Column(
+      // mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+      Align(
       alignment: Alignment.topLeft,
       child: Container(
         margin: const EdgeInsets.only(top: 20, right: 10),
@@ -30,6 +34,13 @@ class _ChatBupleState extends State<ChatBuple> {
               widget.messageModel.message),
         ),
       ),
+
+    ),
+        SizedBox(height: 10,),
+        // Text(
+        //   '${widget.messageModel.createAt}'),
+
+      ],
     );
   }
 }
