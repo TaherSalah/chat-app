@@ -51,6 +51,13 @@ class _ChatBubblesForFrindsState extends State<ChatBubblesForFrinds> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
+
+                  widget.messageModel.id,
+
+                  style:  GoogleFonts.acme(color: Colors.black, fontSize: 10),
+                ),
+                SizedBox(height: 10,),
+                Text(
                   widget.messageModel.message,
                   style: const TextStyle(color: Colors.black, fontSize: 15),
                 ),

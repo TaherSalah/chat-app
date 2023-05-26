@@ -109,12 +109,12 @@ class _LoginScreenState extends State<LoginScreen> {
             ElevatedButton(
                 style: const ButtonStyle(
                     backgroundColor:
-                        MaterialStatePropertyAll(Colors.deepPurple),
+                        MaterialStatePropertyAll(Colors.black),
                     elevation: MaterialStatePropertyAll(10),
                     textStyle: MaterialStatePropertyAll(
                         TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                     padding: MaterialStatePropertyAll(
-                        EdgeInsets.symmetric(horizontal: 20, vertical: 40))),
+                        EdgeInsets.symmetric(horizontal: 40, vertical: 25))),
                 onPressed: () async {
                   if (formKey.currentState!.validate()) {
                     try {

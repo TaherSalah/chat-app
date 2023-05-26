@@ -29,7 +29,7 @@ class ChatApp extends StatelessWidget {
       },
       theme: ThemeData(
         useMaterial3: true,
-
+brightness: Brightness.dark
       ),
       initialRoute: 'Login',
     );

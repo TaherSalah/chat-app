@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
         // ignore: avoid_print
         print(snapshot.data!.docs.length);
         if (!snapshot.hasData) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator(color: Colors.amberAccent,));
         } else {
           List<MessageModel> messageList = [];
           for (int i = 0; i < snapshot.data!.docs.length; i++) {
@@ -44,93 +44,115 @@ class _HomeScreenState extends State<HomeScreen> {
                 backgroundColor: Colors.black,
                 title: defAppBar(),
               ),
-              body: Stack(
-                alignment: Alignment.bottomCenter,
+              body: Column(
                 children: [
-                  Image.asset(
-                    ImagesPath.whatsBg,
-                    fit: BoxFit.cover,
-                    height: double.infinity,
-                    width: double.infinity,
-                  ),
-                  ListView.builder(
-                    reverse: true,
-                    controller: scrollController,
-                    itemCount: messageList.length,
-                    itemBuilder: (context, index) {
-                      ////// i check for email id with me return chatBubbleForMe else ChatBubbleForFrinds /////////
-                      return messageList[index].id == email
-                          ? ChatBubblesForMe(
-                              messageModel: messageList[index],
-                            )
-                          : ChatBubblesForFrinds(
-                              messageModel: messageList[index]);
-                    },
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: TextFormField(
-                      style: GoogleFonts.cairo(color: Colors.white,),
-                      controller: textEditingController,
-                      onFieldSubmitted: (value) {
-                        userMessage.add({
-                          ///// 3alshan ab3at data from message to fireStore ///////
-                          kMessage: value,
-                          ///// 3alshan a3rf order  message in chat ////
-                          kCreatedAt: DateTime.now(),
-                          kId: email
-                        });
-                        //// reset the field after submit data ///////
-                        scrollController.animateTo(0,
-                            duration: const Duration(milliseconds: 1),
-                            curve: Curves.fastOutSlowIn);
-
-                        textEditingController.clear();
-                        setState(() {});
-                      },
-                      onChanged: (va) {
-                        print(va);
-                      },
-                      decoration: InputDecoration(
-                        //// if u make change fillColor in field should change filled value to true and change fill color //////
-                        filled: true,
-                          fillColor: Colors.black,
-                          suffixIcon: IconButton(
-                              onPressed: () {
-                                userMessage.add({
-                                  ///// 3alshan ab3at data from message to fireStore ///////
-                                  kMessage: textEditingController.text,
-                                  ///// 3alshan a3rf order  message in chat ////
-                                  kCreatedAt: DateTime.now(),
-                                  kId: email
-                                });
-                                //// reset the field after submit data ///////
-                                scrollController.animateTo(0,
-                                    duration: const Duration(milliseconds: 1),
-                                    curve: Curves.fastOutSlowIn);
-
-                                textEditingController.clear();
-                                setState(() {});
-                              },
-                              icon: const Icon(Icons.schedule_send_outlined,
-                                  size: 30)),
-                          border: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.amber),
-                              borderRadius: BorderRadius.circular(25)),
-                          disabledBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.amber)),
-                          focusedBorder: const OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.white, width: 2)),
-                          enabledBorder: const OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.amber, width: 1))),
+                  Expanded(
+                    child: Stack(
+                      children: [
+                        SizedBox(
+                          height: double.infinity,
+                          width: double.infinity,
+                          child: Image.asset(
+                            ImagesPath.whatsBg,
+                            fit: BoxFit.cover,
+                            height: double.infinity,
+                            width: double.infinity,
+                          ),
+                        ),
+                        ListView.builder(
+                          reverse: true,
+                          controller: scrollController,
+                          itemCount: messageList.length,
+                          itemBuilder: (context, index) {
+                            ////// i check for email id with me return chatBubbleForMe else ChatBubbleForFrinds /////////
+                            return messageList[index].id == email
+                                ? ChatBubblesForMe(
+                                    messageModel: messageList[index],
+                                  )
+                                : ChatBubblesForFrinds(
+                                    messageModel: messageList[index]);
+                          },
+                        ),
+                      ],
                     ),
                   ),
+                  const DefFormField()
                 ],
               ));
         }
       },
     );
+  }
+}
+
+class DefFormField extends StatefulWidget {
+  const DefFormField({Key? key}) : super(key: key);
+
+  @override
+  State<DefFormField> createState() => _DefFormFieldState();
+}
+
+class _DefFormFieldState extends State<DefFormField> {
+  @override
+  Widget build(BuildContext context) {
+    var email = ModalRoute.of(context)!.settings.arguments;
+
+    return TextFormField(
+      style: GoogleFonts.cairo(
+        color: Colors.white,
+      ),
+      controller: textEditingController,
+      onFieldSubmitted: (value) {
+        userMessage.add({
+          ///// 3alshan ab3at data from message to fireStore ///////
+          kMessage: value,
+          ///// 3alshan a3rf order  message in chat ////
+          kCreatedAt: DateTime.now(),
+          kId: email
+        });
+        //// reset the field after submit data ///////
+        scrollController.animateTo(0,
+            duration: const Duration(milliseconds: 1),
+            curve: Curves.fastOutSlowIn);
+
+        textEditingController.clear();
+        setState(() {});
+      },
+      onChanged: (va) {
+        print(va);
+      },
+      decoration: InputDecoration(
+          //// if u make change fillColor in field should change filled value to true and change fill color //////
+          filled: true,
+          fillColor: Colors.black,
+          suffixIcon: IconButton(
+              onPressed: () {
+                userMessage.add({
+                  ///// 3alshan ab3at data from message to fireStore ///////
+                  kMessage: textEditingController.text,
+                  ///// 3alshan a3rf order  message in chat ////
+                  kCreatedAt: DateTime.now(),
+                  kId: email
+                });
+                //// reset the field after submit data ///////
+                scrollController.animateTo(0,
+                    duration: const Duration(milliseconds: 1),
+                    curve: Curves.fastOutSlowIn);
+
+                textEditingController.clear();
+                setState(() {});
+              },
+              icon: const Icon(IconBroken.Send, color: Colors.white, size: 30)),
+          border: OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.amber),
+              borderRadius: BorderRadius.circular(25)),
+          disabledBorder: const OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.amber)),
+          focusedBorder: const OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white, width: 2)),
+          enabledBorder: const OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.greenAccent, width: 1))),
+    );
+
   }
 }
