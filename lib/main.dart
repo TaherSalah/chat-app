@@ -27,7 +27,10 @@ class ChatApp extends StatelessWidget {
         'Register': (context) => RegisterScreen(),
         'Home': (context) => const HomeScreen(),
       },
-      theme: ThemeData.dark(useMaterial3: true),
+      theme: ThemeData(
+        useMaterial3: true,
+
+      ),
       initialRoute: 'Login',
     );
   }

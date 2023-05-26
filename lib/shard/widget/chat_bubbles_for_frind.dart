@@ -1,6 +1,10 @@
 import 'package:chat_app/model/message_model.dart';
+import 'package:chat_app/shard/widget/images_path.dart';
+import 'package:chat_app/shard/widget/test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class ChatBubblesForFrinds extends StatefulWidget {
   final MessageModel messageModel;
@@ -14,32 +18,50 @@ class ChatBubblesForFrinds extends StatefulWidget {
 class _ChatBubblesForFrindsState extends State<ChatBubblesForFrinds> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      // mainAxisAlignment: MainAxisAlignment.start,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Align(
-          alignment: Alignment.topRight,
-          child: Container(
-              margin: const EdgeInsets.only(top: 20, right: 10),
-              decoration: const BoxDecoration(
-                  color: Colors.green,
-                  borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(15),
-                      bottomRight: Radius.circular(15),
-                      topLeft: Radius.circular(15))),
-              padding: const EdgeInsets.all(10),
-              child: ListTile(
-                title: Text(widget.messageModel.message),
-                leading: const CircleAvatar(
-                    backgroundImage: NetworkImage('https://cdn-icons-png.flaticon.com/512/149/149071.png')),
-                subtitle: Text('${widget.messageModel.createAt}'),
-              )),
+Image.network(ImagesPath.lastUser,width: 50,height: 50,),
+        Transform(
+          alignment: Alignment.center,
+          transform: Matrix4.rotationY(5),
+          child: CustomPaint(
+            painter: Triangle(Colors.grey.shade300),
+          ),
         ),
-        const SizedBox(
-          height: 10,
+        Flexible(
+          child: Container(
+            padding: const EdgeInsets.all(15),
+            margin: const EdgeInsets.only(bottom: 5),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade300,
+              borderRadius: const BorderRadius.only(
+                topRight: Radius.circular(19),
+                bottomLeft: Radius.circular(19),
+                bottomRight: Radius.circular(19),
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  widget.messageModel.message,
+                  style: const TextStyle(color: Colors.black, fontSize: 15),
+                ),
+                SizedBox(height: 10,),
+                Text(
+                  ///// for create formate date and time in chat bubbles ////////
+                  DateFormat.yMMMd().add_jm().format(DateTime.parse('${widget.messageModel.createAt}')),
+                  style: GoogleFonts.acme(color: Colors.black, fontSize: 10),
+                ),
+              ],
+            ),
+          ),
         ),
       ],
     );
   }
 }
+
