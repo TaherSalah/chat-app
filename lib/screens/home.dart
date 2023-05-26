@@ -25,21 +25,24 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     var email = ModalRoute.of(context)!.settings.arguments;
-    return StreamBuilder<QuerySnapshot>(
+    return StreamBuilder<QuerySnapshot?>(
       stream: userMessage.orderBy(kCreatedAt, descending: true).snapshots(),
       builder: (context, snapshot) {
         // ignore: avoid_print
         print(snapshot.data!.docs.length);
-        if (snapshot.hasData) {
+        if (!snapshot.hasData) {
+          return const Center(child: CircularProgressIndicator());
+        } else {
           List<MessageModel> messageList = [];
           for (int i = 0; i < snapshot.data!.docs.length; i++) {
             messageList.add(MessageModel.fromJson(snapshot.data!.docs[i]));
           }
           return Scaffold(
               appBar: AppBar(
+                elevation: 20,
                 centerTitle: true,
                 backgroundColor: Colors.black,
-                title:defAppBar(),
+                title: defAppBar(),
               ),
               body: Stack(
                 alignment: Alignment.bottomCenter,
@@ -64,46 +67,68 @@ class _HomeScreenState extends State<HomeScreen> {
                               messageModel: messageList[index]);
                     },
                   ),
-                  TextFormField(
-                    controller: textEditingController,
-                    onFieldSubmitted: (value) {
-                      userMessage.add({
-                        ///// 3alshan ab3at data from message to fireStore ///////
-                        kMessage: value,
-                        ///// 3alshan a3rf order  message in chat ////
-                        kCreatedAt: DateTime.now(),
-                        kId: email
-                      });
-                      //// reset the field after submit data ///////
-                      scrollController.animateTo(0,
-                          duration: const Duration(milliseconds: 1),
-                          curve: Curves.fastOutSlowIn);
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: TextFormField(
+                      style: GoogleFonts.cairo(color: Colors.white,),
+                      controller: textEditingController,
+                      onFieldSubmitted: (value) {
+                        userMessage.add({
+                          ///// 3alshan ab3at data from message to fireStore ///////
+                          kMessage: value,
+                          ///// 3alshan a3rf order  message in chat ////
+                          kCreatedAt: DateTime.now(),
+                          kId: email
+                        });
+                        //// reset the field after submit data ///////
+                        scrollController.animateTo(0,
+                            duration: const Duration(milliseconds: 1),
+                            curve: Curves.fastOutSlowIn);
 
-                      textEditingController.clear();
-                      setState(() {});
-                    },
-                    onChanged: (va) {
-                      print(va);
-                    },
-                    decoration: InputDecoration(
-                        suffixIcon: IconButton(
-                            onPressed: () async {},
-                            icon: const Icon(Icons.schedule_send_outlined,
-                                size: 30)),
-                        border: OutlineInputBorder(
-                            borderSide: const BorderSide(color: Colors.white),
-                            borderRadius: BorderRadius.circular(25)),
-                        disabledBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white)),
-                        focusedBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white)),
-                        enabledBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white10))),
-                  )
+                        textEditingController.clear();
+                        setState(() {});
+                      },
+                      onChanged: (va) {
+                        print(va);
+                      },
+                      decoration: InputDecoration(
+                        //// if u make change fillColor in field should change filled value to true and change fill color //////
+                        filled: true,
+                          fillColor: Colors.black,
+                          suffixIcon: IconButton(
+                              onPressed: () {
+                                userMessage.add({
+                                  ///// 3alshan ab3at data from message to fireStore ///////
+                                  kMessage: textEditingController.text,
+                                  ///// 3alshan a3rf order  message in chat ////
+                                  kCreatedAt: DateTime.now(),
+                                  kId: email
+                                });
+                                //// reset the field after submit data ///////
+                                scrollController.animateTo(0,
+                                    duration: const Duration(milliseconds: 1),
+                                    curve: Curves.fastOutSlowIn);
+
+                                textEditingController.clear();
+                                setState(() {});
+                              },
+                              icon: const Icon(Icons.schedule_send_outlined,
+                                  size: 30)),
+                          border: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.amber),
+                              borderRadius: BorderRadius.circular(25)),
+                          disabledBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.amber)),
+                          focusedBorder: const OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.white, width: 2)),
+                          enabledBorder: const OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.amber, width: 1))),
+                    ),
+                  ),
                 ],
               ));
-        } else {
-          return const Center(child: CircularProgressIndicator());
         }
       },
     );

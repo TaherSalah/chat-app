@@ -7,7 +7,7 @@ Widget defAppBar(){
     crossAxisAlignment: CrossAxisAlignment.center,
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
-      const Icon(IconBroken.Chat, size: 35),
+      const Icon(IconBroken.Chat, size: 35,color: Colors.white,),
       const SizedBox(
         width: 20,
       ),
@@ -16,7 +16,7 @@ Widget defAppBar(){
         style: GoogleFonts.cairo(
             fontWeight: FontWeight.bold,
             fontSize: 30,
-            color: Colors.amberAccent),
+            color: Colors.white),
       )
     ],
   );
