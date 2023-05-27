@@ -9,14 +9,12 @@ class ChatBubblesForMe extends StatefulWidget {
   final MessageModel messageModel;
   DateTime now = DateTime.now();
 
-   ChatBubblesForMe({super.key, required this.messageModel});
-
-
-
+  ChatBubblesForMe({super.key, required this.messageModel});
 
   @override
   State<ChatBubblesForMe> createState() => _ChatBubblesForMeState();
 }
+
 class _ChatBubblesForMeState extends State<ChatBubblesForMe> {
   @override
   Widget build(BuildContext context) {
@@ -41,33 +39,37 @@ class _ChatBubblesForMeState extends State<ChatBubblesForMe> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-
                   widget.messageModel.id,
-
-                  style:  GoogleFonts.acme(color: Colors.white, fontSize: 10),
+                  style: GoogleFonts.acme(color: Colors.white, fontSize: 10),
                 ),
-                SizedBox(height: 10,),
-
+                SizedBox(
+                  height: 10,
+                ),
                 Text(
-
                   widget.messageModel.message,
-textAlign: TextAlign.justify,
+                  textAlign: TextAlign.justify,
                   style: GoogleFonts.cairo(color: Colors.white, fontSize: 15),
                 ),
-                SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 Text(
                   ///// for create formate date and time in chat bubbles ////////
-                 DateFormat.yMMMd().add_jm().format(DateTime.parse('${widget.messageModel.createAt}')),
-                  style: GoogleFonts.spaceGrotesk(color: Colors.white, fontSize: 10),
+                  DateFormat.yMMMd().add_jm().format(
+                      DateTime.parse('${widget.messageModel.createAt}')),
+                  style: GoogleFonts.spaceGrotesk(
+                      color: Colors.white, fontSize: 10),
                 ),
-
               ],
             ),
           ),
         ),
         CustomPaint(painter: Triangle(Colors.black)),
-        Image.network(ImagesPath.firstUser,height: 50,width: 50,),
-
+        Image.network(
+          ImagesPath.firstUser,
+          height: 50,
+          width: 50,
+        ),
       ],
     );
   }

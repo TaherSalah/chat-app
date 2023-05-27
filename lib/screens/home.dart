@@ -60,6 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         ListView.builder(
+                          physics: const BouncingScrollPhysics(),
                           reverse: true,
                           controller: scrollController,
                           itemCount: messageList.length,

@@ -1,6 +1,7 @@
 import 'package:chat_app/screens/home.dart';
 import 'package:chat_app/screens/login.dart';
 import 'package:chat_app/screens/register.dart';
+import 'package:chat_app/screens/splash.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -26,12 +27,13 @@ class ChatApp extends StatelessWidget {
         'Login': (context) => const LoginScreen(),
         'Register': (context) => RegisterScreen(),
         'Home': (context) => const HomeScreen(),
+        'SplashScreen': (context) => const SplashScreen( ),
       },
       theme: ThemeData(
         useMaterial3: true,
 brightness: Brightness.dark
       ),
-      initialRoute: 'Login',
+      initialRoute: 'SplashScreen',
     );
   }
 }
