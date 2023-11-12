@@ -25,16 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     var email = ModalRoute.of(context)!.settings.arguments;
-    return StreamBuilder<QuerySnapshot>(
-      stream: userMessage.orderBy(kCreatedAt, descending: true).snapshots(),
-      builder: (context, snapshot) {
-        // ignore: avoid_print
-        print(snapshot.data!.docs.length);
-        if (snapshot.hasData) {
-          List<MessageModel> messageList = [];
-          for (int i = 0; i < snapshot.data!.docs.length; i++) {
-            messageList.add(MessageModel.fromJson(snapshot.data!.docs[i]));
-          }
+    List<MessageModel>messageList=[];
           return Scaffold(
               appBar: AppBar(
                 centerTitle: true,
@@ -102,10 +93,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   )
                 ],
               ));
-        } else {
-          return const Center(child: CircularProgressIndicator());
-        }
-      },
-    );
   }
-}
+
+
+  }
+
