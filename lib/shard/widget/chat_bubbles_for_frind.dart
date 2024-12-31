@@ -2,7 +2,6 @@ import 'package:chat_app/model/message_model.dart';
 import 'package:chat_app/shard/widget/images_path.dart';
 import 'package:chat_app/shard/widget/test.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
@@ -50,7 +49,7 @@ Image.network(ImagesPath.lastUser,width: 50,height: 50,),
                   widget.messageModel.message,
                   style: const TextStyle(color: Colors.black, fontSize: 15),
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 Text(
                   ///// for create formate date and time in chat bubbles ////////
                   DateFormat.yMMMd().add_jm().format(DateTime.parse('${widget.messageModel.createAt}')),

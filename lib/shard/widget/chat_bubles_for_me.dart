@@ -53,7 +53,7 @@ class _ChatBubblesForMeState extends State<ChatBubblesForMe> {
 
                   style: const TextStyle(color: Colors.white, fontSize: 15),
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 Text(
                   ///// for create formate date and time in chat bubbles ////////
                  DateFormat.yMMMd().add_jm().format(DateTime.parse('${widget.messageModel.createAt}')),

@@ -1,7 +1,4 @@
 import 'package:chat_app/screens/auth_bloc/auth_bloc.dart';
-import 'package:chat_app/screens/home.dart';
-import 'package:chat_app/shard/widget/snak_bar_widget.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -84,20 +81,20 @@ class LoginScreen extends StatelessWidget {
                       password = data;
                     },
                     obscureText: isActive,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                         // suffixIcon: InkWell(
                         //   onTap: togglePassword,
                         //   child: isActive
                         //       ? const Icon(Icons.visibility_off)
                         //       : const Icon(Icons.visibility),
                         // ),
-                        prefixIcon: const Icon(Icons.lock_open_outlined),
+                        prefixIcon: Icon(Icons.lock_open_outlined),
                         hintText: 'Enter Your Password',
-                        label: const Text('password'),
-                        focusedBorder: const OutlineInputBorder(
+                        label: Text('password'),
+                        focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.green),
                         ),
-                        enabledBorder: const OutlineInputBorder(
+                        enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.white),
                         )),
                   ),
